@@ -10,9 +10,7 @@ import Foundation
 struct User {
     let name: String
     let profileImageURL: String
-    let feeds: [Feed]
 }
-
 
 extension User {
     static func createRandom() -> User {
@@ -24,6 +22,6 @@ extension User {
             "https://live.staticflickr.com/8133/30003917960_f58619f2ae_b.jpg"
         ]
         
-        return User(name: names.randomElement()!, profileImageURL: profileImages.randomElement()!, feeds: [])
+        return User(name: names.randomElement()!, profileImageURL: profileImages.randomElement()!)
     }
 }

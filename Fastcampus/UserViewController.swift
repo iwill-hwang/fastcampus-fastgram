@@ -10,7 +10,7 @@ import UIKit
 
 extension UIImageView {
     func setImage(url: URL) {
-        self.af.setImage(withURL: url, progressQueue: DispatchQueue.main, imageTransition: .crossDissolve(0.2), runImageTransitionIfCached: true, completion: nil)
+        self.af.setImage(withURL: url, progressQueue: DispatchQueue.main, imageTransition: .crossDissolve(0.2), runImageTransitionIfCached: false, completion: nil)
     }
 }
 class UserProfileCell: UICollectionReusableView {
@@ -53,25 +53,19 @@ class UserFeedCell: UICollectionViewCell {
 
 class UserViewController: UIViewController {
     var user: User?
-    
-    let images = [
-        "https://images.unsplash.com/photo-1550354520-86a81c515d44?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1200&q=80",
-        "https://images.unsplash.com/photo-1622868685547-88562982d7d6?ixid=MnwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHwxN3x8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=900&q=60",
-        "https://images.unsplash.com/photo-1622502887577-5a321783c8ae?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1532&q=80",
-        "https://images.unsplash.com/photo-1622976245837-2d862662f04d?ixid=MnwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHwyOHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=900&q=60",
-        "https://images.unsplash.com/photo-1622976383598-63a52ddd77be?ixid=MnwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHwzM3x8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=900&q=60"
-    ].shuffled()
-    
+    var medias: [FeedMedia] = {
+        return (0...20).map{_ in FeedMedia.createRandom()}
+    }()
 }
 
 extension UserViewController: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        user?.feeds.count ?? 0
+        medias.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "UserFeedCell", for: indexPath) as! UserFeedCell
-        cell.profileImage = user?.profileImageURL
+        cell.profileImage = medias[indexPath.item].url
         return cell
     }
     

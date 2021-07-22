@@ -28,17 +28,24 @@ class FeedItemCell: UICollectionViewCell {
 class FeedCell: UITableViewCell {
     var feed: Feed? {
         didSet {
-            if let profileImageURL = feed?.user.profileImageURL, let url = URL(string: profileImageURL) {
+            guard let feed = feed else { return }
+                
+            
+            if let url = URL(string: feed.user.profileImageURL) {
                 userPhotoView.setImage(url: url)
-            } else {
-                userPhotoView.image = nil
             }
-            userNameLabel.text = feed?.user.name
+            
             collectionView.reloadData()
+            collectionView.contentOffset = .zero
+            
+            userNameLabel.text = feed.user.name
+            likeCountLabel.text = "좋아요 \(feed.likeCount)개"
+            pageControl.numberOfPages = feed.medias.count
+            pageControl.currentPage = 0
         }
     }
     
-    var loading = false
+    var viewModel: FeedViewModel?
     
     @IBOutlet weak private var userPhotoView: UIImageView!
     @IBOutlet weak private var userNameLabel: UILabel!
@@ -46,8 +53,8 @@ class FeedCell: UITableViewCell {
     @IBOutlet weak private var likeView: UIView!
     @IBOutlet weak private var likeButton: UIButton!
     @IBOutlet weak private var likeCountLabel: UILabel!
-    @IBOutlet weak private var replyLabel: UILabel!
     @IBOutlet weak private var container: UIView!
+    @IBOutlet weak private var pageControl: UIPageControl!
     @IBOutlet weak private var collectionView: UICollectionView!
     
     override func awakeFromNib() {
@@ -65,6 +72,7 @@ class FeedCell: UITableViewCell {
         super.prepareForReuse()
         self.likeView.transform = CGAffineTransform(scaleX: 0.5, y: 0.5)
         self.likeView.alpha = 0
+        self.userPhotoView.image = nil
     }
     
     @objc func animateLike() {
@@ -75,18 +83,37 @@ class FeedCell: UITableViewCell {
             UIView.animate(withDuration: 0.2, delay: 0.5, usingSpringWithDamping: 0.8, initialSpringVelocity: 0.6, options: .curveEaseInOut, animations: {
                 self.likeView.alpha = 0
                 self.likeView.transform = CGAffineTransform(scaleX: 0.5, y: 0.5)
-            }, completion: { _ in
-                
+            }, completion: { [weak self] _ in
+                if let feed = self?.feed {
+                    self?.viewModel?.toggleLike?(feed)
+                }
             })
         })
+    }
+    
+    @IBAction func selectProfile() {
+        guard let user = self.feed?.user else { return }
+        self.viewModel?.goUserProfile?(user)
+    }
+}
+
+extension FeedCell: UIScrollViewDelegate {
+    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+        let index = Int(scrollView.contentOffset.x / scrollView.frame.width)
+        pageControl.currentPage = index
     }
 }
 
 extension FeedCell: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "FeedItemCell", for: indexPath) as! FeedItemCell
-                
-//        cell.url = URL(string: images[indexPath.item])!
+        let media = feed?.medias[indexPath.item]
+        
+        if let media = media, let url = URL(string: media.url) {
+            cell.url = url
+        } else {
+            cell.url = nil
+        }
         
         return cell
     }
@@ -96,12 +123,19 @@ extension FeedCell: UICollectionViewDataSource, UICollectionViewDelegateFlowLayo
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        0
+        feed?.medias.count ?? 0
     }
+}
+
+class FeedViewModel {
+    var goUserProfile: ((User) -> Void)? = nil
+    var toggleLike: ((Feed) -> Void)? = nil
 }
 
 class FeedViewController: UIViewController {
     private let limit = 50
+    private let viewModel = FeedViewModel()
+    
     private var feeds: [Feed] = []
     private var isLoadingContents = false
     
@@ -113,12 +147,30 @@ class FeedViewController: UIViewController {
         self.tableView.rowHeight = UITableView.automaticDimension
         self.setupRefreshControl()
         self.initialize()
+        
+        self.viewModel.goUserProfile = { [weak self] user in
+            self?.performSegue(withIdentifier: "User", sender: user)
+        }
+        
+        self.viewModel.toggleLike = { [weak self] feed in
+            guard let weakself = self else { return }
+            guard let index = self?.feeds.firstIndex(where: {$0.id == feed.id}) else { return }
+            
+            var feed = weakself.feeds[index]
+            let liked = feed.liked == false
+            let count = feed.likeCount + (liked ? 1 : -1)
+            
+            feed.liked = liked
+            feed.likeCount = count
+            
+            weakself.feeds[index] = feed
+            weakself.tableView.reloadData()
+        }
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "User", let indexPath = sender as? IndexPath {
+        if segue.identifier == "User", let user = sender as? User {
             let controller = segue.destination as? UserViewController
-            let user = feeds[indexPath.row].user
             
             controller?.user = user
         }
@@ -177,17 +229,14 @@ extension FeedViewController: UITableViewDelegate, UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: "FeedCell", for: indexPath) as! FeedCell
         let feed = feeds[indexPath.row]
         
+        cell.viewModel = viewModel
         cell.feed = feed
         
         return cell
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 600
-    }
-    
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        performSegue(withIdentifier: "User", sender: indexPath)
+        return UITableView.automaticDimension
     }
 }
 
