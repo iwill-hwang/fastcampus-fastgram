@@ -8,6 +8,11 @@
 
 /* Begin PBXBuildFile section */
 		50257219AEBD04A910B6F574 /* Pods_Fastcampus.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9BE8B4686997F79B91858D52 /* Pods_Fastcampus.framework */; };
+		9C397DB626AA45AB0075DCB0 /* FeedCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C397DB526AA45AB0075DCB0 /* FeedCell.swift */; };
+		9C397DB826AA60AD0075DCB0 /* FeedMovieCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C397DB726AA60AD0075DCB0 /* FeedMovieCell.swift */; };
+		9C397DBA26AA61220075DCB0 /* FeedImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C397DB926AA61220075DCB0 /* FeedImageCell.swift */; };
+		9C397DBD26AA8F860075DCB0 /* UIView+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C397DBC26AA8F860075DCB0 /* UIView+Extensions.swift */; };
+		9C397DBF26AA8FC40075DCB0 /* UIImageView+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C397DBE26AA8FC40075DCB0 /* UIImageView+Extensions.swift */; };
 		9C532AA926A7B01E00F8A084 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C532AA826A7B01E00F8A084 /* AppDelegate.swift */; };
 		9C532AAB26A7B01E00F8A084 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C532AAA26A7B01E00F8A084 /* SceneDelegate.swift */; };
 		9C532AAD26A7B01E00F8A084 /* FeedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C532AAC26A7B01E00F8A084 /* FeedViewController.swift */; };
@@ -24,6 +29,11 @@
 		1935E469332F01358913B71C /* Pods-Fastcampus.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Fastcampus.debug.xcconfig"; path = "Target Support Files/Pods-Fastcampus/Pods-Fastcampus.debug.xcconfig"; sourceTree = "<group>"; };
 		8F48371DBE508E4E229CB2F6 /* Pods-Fastcampus.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Fastcampus.release.xcconfig"; path = "Target Support Files/Pods-Fastcampus/Pods-Fastcampus.release.xcconfig"; sourceTree = "<group>"; };
 		9BE8B4686997F79B91858D52 /* Pods_Fastcampus.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Fastcampus.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		9C397DB526AA45AB0075DCB0 /* FeedCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedCell.swift; sourceTree = "<group>"; };
+		9C397DB726AA60AD0075DCB0 /* FeedMovieCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedMovieCell.swift; sourceTree = "<group>"; };
+		9C397DB926AA61220075DCB0 /* FeedImageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedImageCell.swift; sourceTree = "<group>"; };
+		9C397DBC26AA8F860075DCB0 /* UIView+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Extensions.swift"; sourceTree = "<group>"; };
+		9C397DBE26AA8FC40075DCB0 /* UIImageView+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView+Extensions.swift"; sourceTree = "<group>"; };
 		9C532AA526A7B01E00F8A084 /* Fastcampus.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Fastcampus.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9C532AA826A7B01E00F8A084 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		9C532AAA26A7B01E00F8A084 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -67,13 +77,23 @@
 			path = Pods;
 			sourceTree = "<group>";
 		};
+		9C397DBB26AA8F700075DCB0 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				9C397DBC26AA8F860075DCB0 /* UIView+Extensions.swift */,
+				9C397DBE26AA8FC40075DCB0 /* UIImageView+Extensions.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
 		9C532A9C26A7B01E00F8A084 = {
 			isa = PBXGroup;
 			children = (
+				9C397DBB26AA8F700075DCB0 /* Extensions */,
 				9C532AA726A7B01E00F8A084 /* Fastcampus */,
-				9C532AA626A7B01E00F8A084 /* Products */,
-				99B1EFC5C542D6FD9374B569 /* Pods */,
 				253FE745F7BE7941B77249B5 /* Frameworks */,
+				99B1EFC5C542D6FD9374B569 /* Pods */,
+				9C532AA626A7B01E00F8A084 /* Products */,
 			);
 			sourceTree = "<group>";
 		};
@@ -90,6 +110,9 @@
 			children = (
 				9C532AB626A7B01F00F8A084 /* Info.plist */,
 				9C532AA826A7B01E00F8A084 /* AppDelegate.swift */,
+				9C397DB526AA45AB0075DCB0 /* FeedCell.swift */,
+				9C397DB926AA61220075DCB0 /* FeedImageCell.swift */,
+				9C397DB726AA60AD0075DCB0 /* FeedMovieCell.swift */,
 				9C532AAC26A7B01E00F8A084 /* FeedViewController.swift */,
 				9C532AAA26A7B01E00F8A084 /* SceneDelegate.swift */,
 				9C532AD426A7C40500F8A084 /* UserViewController.swift */,
@@ -230,8 +253,13 @@
 				9C532ADC26A7CA6200F8A084 /* FeedMedia.swift in Sources */,
 				9C532AD526A7C40500F8A084 /* UserViewController.swift in Sources */,
 				9C532AA926A7B01E00F8A084 /* AppDelegate.swift in Sources */,
+				9C397DB626AA45AB0075DCB0 /* FeedCell.swift in Sources */,
+				9C397DBF26AA8FC40075DCB0 /* UIImageView+Extensions.swift in Sources */,
 				9C532AD826A7C91B00F8A084 /* User.swift in Sources */,
 				9C532AAB26A7B01E00F8A084 /* SceneDelegate.swift in Sources */,
+				9C397DB826AA60AD0075DCB0 /* FeedMovieCell.swift in Sources */,
+				9C397DBA26AA61220075DCB0 /* FeedImageCell.swift in Sources */,
+				9C397DBD26AA8F860075DCB0 /* UIView+Extensions.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

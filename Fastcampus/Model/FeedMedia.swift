@@ -19,13 +19,20 @@ struct FeedMedia {
 
 extension FeedMedia {
     static func createRandom() -> FeedMedia {
-        let urls = [
+        let images = [
             "https://images.unsplash.com/photo-1593642533144-3d62aa4783ec?ixid=MnwxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
             "https://images.unsplash.com/photo-1623435119185-3886f034006a?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80",
             "https://images.unsplash.com/photo-1626639900754-78b8dddbcc37?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80",
             "https://images.unsplash.com/photo-1553272725-086100aecf5e?ixid=MnwxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=701&q=80",
             "https://images.unsplash.com/photo-1626541672773-ed6234412f07?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80"
         ]
-        return FeedMedia(type: .photo, url: urls.randomElement()!)
+        
+        let movies = ["https://lachy.id.au/dev/markup/examples/video/bus.mp4",
+                      "https://file-examples-com.github.io/uploads/2018/04/file_example_MOV_480_700kB.mov"]
+        
+        let type = [0, 1, 2].randomElement() == 0 ? FeedMediaType.movie : FeedMediaType.photo
+        let url = type == .movie ? movies.randomElement()! : images.randomElement()!
+        
+        return FeedMedia(type: type, url: url)
     }
 }

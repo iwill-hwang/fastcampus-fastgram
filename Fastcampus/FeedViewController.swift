@@ -6,124 +6,20 @@
 //
 
 import UIKit
-import AlamofireImage
 
-extension UIView {
-    func makeCircle() {
-        self.layer.cornerRadius = self.frame.height / 2
-        self.layer.masksToBounds = true
-    }
+protocol MediaPlayable: UIView {
+    func isPlayable(from superview: UIScrollView) -> Bool
+    func resume()
+    func pause()
 }
 
-class FeedItemCell: UICollectionViewCell {
-    var url: URL! {
-        didSet {
-            imageView.setImage(url: url)
-        }
-    }
-    
-    @IBOutlet weak private var imageView: UIImageView!
-}
-
-class FeedCell: UITableViewCell {
-    var feed: Feed? {
-        didSet {
-            guard let feed = feed else { return }
-                
-            
-            if let url = URL(string: feed.user.profileImageURL) {
-                userPhotoView.setImage(url: url)
-            }
-            
-            collectionView.reloadData()
-            collectionView.contentOffset = .zero
-            
-            userNameLabel.text = feed.user.name
-            likeCountLabel.text = "좋아요 \(feed.likeCount)개"
-            pageControl.numberOfPages = feed.medias.count
-            pageControl.currentPage = 0
-        }
-    }
-    
-    var viewModel: FeedViewModel?
-    
-    @IBOutlet weak private var userPhotoView: UIImageView!
-    @IBOutlet weak private var userNameLabel: UILabel!
-    @IBOutlet weak private var contentLabel: UILabel!
-    @IBOutlet weak private var likeView: UIView!
-    @IBOutlet weak private var likeButton: UIButton!
-    @IBOutlet weak private var likeCountLabel: UILabel!
-    @IBOutlet weak private var container: UIView!
-    @IBOutlet weak private var pageControl: UIPageControl!
-    @IBOutlet weak private var collectionView: UICollectionView!
-    
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        self.likeView.transform = CGAffineTransform(scaleX: 0.5, y: 0.5)
-        self.likeView.alpha = 0
-        self.userPhotoView.makeCircle()
-        
-        let doubleTap = UITapGestureRecognizer(target: self, action: #selector(animateLike))
-        doubleTap.numberOfTapsRequired = 2
-        container.addGestureRecognizer(doubleTap)
-    }
-    
-    override func prepareForReuse() {
-        super.prepareForReuse()
-        self.likeView.transform = CGAffineTransform(scaleX: 0.5, y: 0.5)
-        self.likeView.alpha = 0
-        self.userPhotoView.image = nil
-    }
-    
-    @objc func animateLike() {
-        UIView.animate(withDuration: 0.2, delay: 0, usingSpringWithDamping: 0.8, initialSpringVelocity: 0.6, options: .curveEaseInOut, animations: {
-            self.likeView.alpha = 1
-            self.likeView.transform = CGAffineTransform(scaleX: 1, y: 1)
-        }, completion: { _ in
-            UIView.animate(withDuration: 0.2, delay: 0.5, usingSpringWithDamping: 0.8, initialSpringVelocity: 0.6, options: .curveEaseInOut, animations: {
-                self.likeView.alpha = 0
-                self.likeView.transform = CGAffineTransform(scaleX: 0.5, y: 0.5)
-            }, completion: { [weak self] _ in
-                if let feed = self?.feed {
-                    self?.viewModel?.toggleLike?(feed)
-                }
-            })
-        })
-    }
-    
-    @IBAction func selectProfile() {
-        guard let user = self.feed?.user else { return }
-        self.viewModel?.goUserProfile?(user)
-    }
-}
-
-extension FeedCell: UIScrollViewDelegate {
-    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
-        let index = Int(scrollView.contentOffset.x / scrollView.frame.width)
-        pageControl.currentPage = index
-    }
-}
-
-extension FeedCell: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "FeedItemCell", for: indexPath) as! FeedItemCell
-        let media = feed?.medias[indexPath.item]
-        
-        if let media = media, let url = URL(string: media.url) {
-            cell.url = url
+extension MediaPlayable {
+    func togglePlay(from superview: UIScrollView) {
+        if isPlayable(from: superview) {
+            self.resume()
         } else {
-            cell.url = nil
+            self.pause()
         }
-        
-        return cell
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return collectionView.frame.size
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        feed?.medias.count ?? 0
     }
 }
 
@@ -164,7 +60,10 @@ class FeedViewController: UIViewController {
             feed.likeCount = count
             
             weakself.feeds[index] = feed
-            weakself.tableView.reloadData()
+            
+            if let cell = self?.tableView.cellForRow(at: IndexPath(row: index, section: 0)) as? FeedCell {
+                cell.updateLike(feed)
+            }
         }
     }
     
@@ -208,6 +107,10 @@ class FeedViewController: UIViewController {
             self?.isLoadingContents = false
             self?.loadingIndicator.stopAnimating()
             self?.tableView.refreshControl?.endRefreshing()
+            
+            if reset {
+                self?.playMovieIfNeeded()
+            }
         })
     }
     
@@ -238,6 +141,20 @@ extension FeedViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return UITableView.automaticDimension
     }
+    
+    func playMovieIfNeeded() {
+        var alreadyPlaying = false
+        
+        self.tableView.visibleCells.compactMap{$0 as? MediaPlayable}.forEach{
+            let isPlayable = $0.isPlayable(from: self.tableView)
+            if alreadyPlaying == false && isPlayable {
+                $0.resume()
+                alreadyPlaying = true
+            } else {
+                $0.pause()
+            }
+        }
+    }
 }
 
 extension FeedViewController: UIScrollViewDelegate {
@@ -249,5 +166,7 @@ extension FeedViewController: UIScrollViewDelegate {
             isLoadingContents = true
             loadContents(reset: false)
         }
+        
+        self.playMovieIfNeeded()
     }
 }

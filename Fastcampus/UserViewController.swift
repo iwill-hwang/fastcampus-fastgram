@@ -8,11 +8,6 @@
 import Foundation
 import UIKit
 
-extension UIImageView {
-    func setImage(url: URL) {
-        self.af.setImage(withURL: url, progressQueue: DispatchQueue.main, imageTransition: .crossDissolve(0.2), runImageTransitionIfCached: false, completion: nil)
-    }
-}
 class UserProfileCell: UICollectionReusableView {
     var user: User? {
         didSet {
