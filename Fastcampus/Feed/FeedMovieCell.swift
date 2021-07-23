@@ -9,28 +9,32 @@ import Foundation
 import UIKit
 import AVKit
 
+class MoviePlayerView: UIView {
+    override static var layerClass: AnyClass { AVPlayerLayer.self }
+    
+    // The associated player object.
+    var player: AVPlayer? {
+        get { playerLayer.player }
+        set { playerLayer.player = newValue }
+    }
+    
+    var playerLayer: AVPlayerLayer { layer as! AVPlayerLayer }
+}
+
 class FeedMovieCell: UICollectionViewCell, MediaPlayable {
     let player = AVPlayer()
-    let playerLayer = AVPlayerLayer()
+    
+    @IBOutlet weak private var playerView: MoviePlayerView!
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        self.contentView.layer.addSublayer(playerLayer)
-        
-        self.playerLayer.player = player
-        self.playerLayer.videoGravity = .resizeAspectFill
-        
-        self.playerLayer.backgroundColor = UIColor.black.cgColor
+        self.playerView.player = player
+        self.playerView.playerLayer.videoGravity = .resizeAspectFill
     }
     
     override func prepareForReuse() {
         super.prepareForReuse()
         self.player.replaceCurrentItem(with: nil)
-    }
-    
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        self.playerLayer.frame = self.contentView.bounds
     }
     
     func resume() {

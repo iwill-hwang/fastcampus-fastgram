@@ -82,7 +82,7 @@
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="aeE-xT-FEH">
                                                     <rect key="frame" x="0.0" y="50" width="414" height="414"/>
                                                     <subviews>
-                                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Huq-D8-JLr">
+                                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Huq-D8-JLr" userLabel="Collection View Container">
                                                             <rect key="frame" x="0.0" y="0.0" width="414" height="414"/>
                                                             <subviews>
                                                                 <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" directionalLockEnabled="YES" alwaysBounceHorizontal="YES" pagingEnabled="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="LLZ-op-XK0">
@@ -124,7 +124,22 @@
                                                                             <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="BN5-wH-mON">
                                                                                 <rect key="frame" x="0.0" y="0.0" width="128" height="128"/>
                                                                                 <autoresizingMask key="autoresizingMask"/>
+                                                                                <subviews>
+                                                                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gEd-C4-Bnj" customClass="MoviePlayerView" customModule="Fastcampus" customModuleProvider="target">
+                                                                                        <rect key="frame" x="0.0" y="0.0" width="128" height="128"/>
+                                                                                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                                                                    </view>
+                                                                                </subviews>
+                                                                                <constraints>
+                                                                                    <constraint firstItem="gEd-C4-Bnj" firstAttribute="top" secondItem="BN5-wH-mON" secondAttribute="top" id="JZk-JB-MIb"/>
+                                                                                    <constraint firstAttribute="bottom" secondItem="gEd-C4-Bnj" secondAttribute="bottom" id="TYq-nE-e01"/>
+                                                                                    <constraint firstItem="gEd-C4-Bnj" firstAttribute="leading" secondItem="BN5-wH-mON" secondAttribute="leading" id="mO3-A9-EvH"/>
+                                                                                    <constraint firstAttribute="trailing" secondItem="gEd-C4-Bnj" secondAttribute="trailing" id="o3Y-Pg-UIM"/>
+                                                                                </constraints>
                                                                             </collectionViewCellContentView>
+                                                                            <connections>
+                                                                                <outlet property="playerView" destination="gEd-C4-Bnj" id="8XQ-Jt-iuD"/>
+                                                                            </connections>
                                                                         </collectionViewCell>
                                                                     </cells>
                                                                     <connections>
@@ -156,6 +171,7 @@
                                                         <constraint firstItem="fx3-Zx-wXe" firstAttribute="centerX" secondItem="aeE-xT-FEH" secondAttribute="centerX" id="NZu-N7-4sS"/>
                                                         <constraint firstAttribute="bottom" secondItem="Huq-D8-JLr" secondAttribute="bottom" id="PAz-nS-ekJ"/>
                                                         <constraint firstItem="fx3-Zx-wXe" firstAttribute="centerY" secondItem="aeE-xT-FEH" secondAttribute="centerY" id="VIM-Sg-bdV"/>
+                                                        <constraint firstAttribute="width" secondItem="aeE-xT-FEH" secondAttribute="height" multiplier="1:1" id="YNa-CX-bXj"/>
                                                         <constraint firstItem="Huq-D8-JLr" firstAttribute="top" secondItem="aeE-xT-FEH" secondAttribute="top" id="YjG-cq-nUh"/>
                                                         <constraint firstItem="Huq-D8-JLr" firstAttribute="leading" secondItem="aeE-xT-FEH" secondAttribute="leading" id="u2m-fw-m0j"/>
                                                     </constraints>
@@ -188,16 +204,13 @@
                                                     </constraints>
                                                 </view>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="좋아요 1211개" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Zyy-lc-IlD">
-                                                    <rect key="frame" x="10" y="499" width="399" height="11"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="height" constant="11" id="RSQ-pi-SPA"/>
-                                                    </constraints>
+                                                    <rect key="frame" x="10" y="499" width="399" height="60.5"/>
                                                     <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="12"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="751" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VxW-JR-hMG">
-                                                    <rect key="frame" x="10" y="515" width="399" height="15"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="252" verticalCompressionResistancePriority="751" usesAttributedText="YES" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VxW-JR-hMG">
+                                                    <rect key="frame" x="10" y="564.5" width="399" height="15.5"/>
                                                     <attributedString key="attributedText">
                                                         <fragment content="Fastcampus">
                                                             <attributes>
@@ -222,7 +235,6 @@
                                             <constraints>
                                                 <constraint firstItem="VxW-JR-hMG" firstAttribute="trailing" secondItem="Zyy-lc-IlD" secondAttribute="trailing" id="0Fe-ss-ElU"/>
                                                 <constraint firstItem="VGM-Yx-iAt" firstAttribute="top" secondItem="uCu-Hf-HUf" secondAttribute="top" id="0jF-8h-xv8"/>
-                                                <constraint firstItem="aeE-xT-FEH" firstAttribute="height" secondItem="uCu-Hf-HUf" secondAttribute="width" id="2Cr-VH-YgB"/>
                                                 <constraint firstItem="VxW-JR-hMG" firstAttribute="leading" secondItem="Zyy-lc-IlD" secondAttribute="leading" id="4CP-1e-a37"/>
                                                 <constraint firstItem="0KF-Ld-PZG" firstAttribute="leading" secondItem="uCu-Hf-HUf" secondAttribute="leading" id="ANY-2G-Yjv"/>
                                                 <constraint firstItem="VGM-Yx-iAt" firstAttribute="leading" secondItem="uCu-Hf-HUf" secondAttribute="leading" id="FCh-qd-YL7"/>
@@ -232,7 +244,7 @@
                                                 <constraint firstAttribute="trailing" secondItem="0KF-Ld-PZG" secondAttribute="trailing" id="KOY-hq-vRU"/>
                                                 <constraint firstItem="VxW-JR-hMG" firstAttribute="top" secondItem="Zyy-lc-IlD" secondAttribute="bottom" constant="5" id="Lao-M9-Hy1"/>
                                                 <constraint firstItem="aeE-xT-FEH" firstAttribute="leading" secondItem="uCu-Hf-HUf" secondAttribute="leading" id="fMw-HY-n7D"/>
-                                                <constraint firstItem="aeE-xT-FEH" firstAttribute="height" secondItem="uCu-Hf-HUf" secondAttribute="height" multiplier="0.69" id="jcX-Gc-9UY"/>
+                                                <constraint firstAttribute="bottom" secondItem="VxW-JR-hMG" secondAttribute="bottom" priority="900" constant="20" id="hgD-Lm-8Or"/>
                                                 <constraint firstItem="0KF-Ld-PZG" firstAttribute="top" secondItem="aeE-xT-FEH" secondAttribute="bottom" id="nHK-pG-Shx"/>
                                                 <constraint firstAttribute="trailing" secondItem="VGM-Yx-iAt" secondAttribute="trailing" id="rCJ-FP-v2K"/>
                                                 <constraint firstAttribute="trailing" secondItem="Zyy-lc-IlD" secondAttribute="trailing" constant="5" id="sCX-YX-w0R"/>

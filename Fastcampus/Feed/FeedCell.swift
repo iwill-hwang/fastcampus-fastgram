@@ -21,6 +21,7 @@ class FeedCell: UITableViewCell {
             collectionView.reloadData()
             collectionView.contentOffset = .zero
             
+            contentLabel.text = "2021-07-23 18:40:59.866171+0900 Fastcampus[4612:180872] [plugin] AddInstanceForFactory: No factory registered for id <CFUUID 0x60000099a920> F8BB1C28-BAE8-11D6-9C31-00039315CD46"
             userNameLabel.text = feed.user.name
             
             updateLike(feed)
