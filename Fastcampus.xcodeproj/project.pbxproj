@@ -86,10 +86,37 @@
 			path = Extensions;
 			sourceTree = "<group>";
 		};
+		9C397DC026AA92C90075DCB0 /* Feed */ = {
+			isa = PBXGroup;
+			children = (
+				9C397DB526AA45AB0075DCB0 /* FeedCell.swift */,
+				9C397DB926AA61220075DCB0 /* FeedImageCell.swift */,
+				9C397DB726AA60AD0075DCB0 /* FeedMovieCell.swift */,
+				9C532AAC26A7B01E00F8A084 /* FeedViewController.swift */,
+			);
+			path = Feed;
+			sourceTree = "<group>";
+		};
+		9C397DC126AA92DB0075DCB0 /* UserProfile */ = {
+			isa = PBXGroup;
+			children = (
+				9C532AD426A7C40500F8A084 /* UserViewController.swift */,
+			);
+			path = UserProfile;
+			sourceTree = "<group>";
+		};
+		9C397DC226AA92FF0075DCB0 /* Storyboards */ = {
+			isa = PBXGroup;
+			children = (
+				9C532AB326A7B01F00F8A084 /* LaunchScreen.storyboard */,
+				9C532AAE26A7B01E00F8A084 /* Main.storyboard */,
+			);
+			path = Storyboards;
+			sourceTree = "<group>";
+		};
 		9C532A9C26A7B01E00F8A084 = {
 			isa = PBXGroup;
 			children = (
-				9C397DBB26AA8F700075DCB0 /* Extensions */,
 				9C532AA726A7B01E00F8A084 /* Fastcampus */,
 				253FE745F7BE7941B77249B5 /* Frameworks */,
 				99B1EFC5C542D6FD9374B569 /* Pods */,
@@ -110,16 +137,13 @@
 			children = (
 				9C532AB626A7B01F00F8A084 /* Info.plist */,
 				9C532AA826A7B01E00F8A084 /* AppDelegate.swift */,
-				9C397DB526AA45AB0075DCB0 /* FeedCell.swift */,
-				9C397DB926AA61220075DCB0 /* FeedImageCell.swift */,
-				9C397DB726AA60AD0075DCB0 /* FeedMovieCell.swift */,
-				9C532AAC26A7B01E00F8A084 /* FeedViewController.swift */,
 				9C532AAA26A7B01E00F8A084 /* SceneDelegate.swift */,
-				9C532AD426A7C40500F8A084 /* UserViewController.swift */,
 				9C532AB126A7B01F00F8A084 /* Assets.xcassets */,
-				9C532AB326A7B01F00F8A084 /* LaunchScreen.storyboard */,
-				9C532AAE26A7B01E00F8A084 /* Main.storyboard */,
+				9C397DBB26AA8F700075DCB0 /* Extensions */,
+				9C397DC026AA92C90075DCB0 /* Feed */,
 				9C532AD626A7C90900F8A084 /* Model */,
+				9C397DC226AA92FF0075DCB0 /* Storyboards */,
+				9C397DC126AA92DB0075DCB0 /* UserProfile */,
 			);
 			path = Fastcampus;
 			sourceTree = "<group>";
