@@ -70,10 +70,7 @@ class FeedCell: UITableViewCell {
         super.awakeFromNib()
         self.userPhotoView.makeCircle()
         self.initialize()
-        
-        let feedDoubleTap = UITapGestureRecognizer(target: self, action: #selector(animateLike))
-        feedDoubleTap.numberOfTapsRequired = 2
-        container.addGestureRecognizer(feedDoubleTap)
+        self.addLikeDoubleTap()
         
         let textTap = UITapGestureRecognizer(target: self, action: #selector(selectText))
         contentLabel.addGestureRecognizer(textTap)
@@ -95,13 +92,38 @@ class FeedCell: UITableViewCell {
         likeButton.isSelected = feed.liked
         likeButton.tintColor = feed.liked ? .systemPink : .black
     }
-    
+}
+
+// MARK: - FeedCellDelegate
+
+extension FeedCell {
     @objc func selectText() {
         guard let content = feed?.content, content.count >= 40 else {
             return
         }
         delegate?.feedCellShoudExpand(self)
     }
+    
+    @IBAction func toggleLike() {
+        guard let feed = feed else { return }
+        delegate?.feedCell(self, toggleLike: feed)
+    }
+    
+    @IBAction func selectProfile() {
+        guard let user = self.feed?.user else { return }
+        delegate?.feedCell(self, selectUser: user)
+    }
+}
+
+// MARK: - 좋아요
+
+extension FeedCell {
+    func addLikeDoubleTap() {
+        let feedDoubleTap = UITapGestureRecognizer(target: self, action: #selector(animateLike))
+        feedDoubleTap.numberOfTapsRequired = 2
+        container.addGestureRecognizer(feedDoubleTap)
+    }
+    
     
     @objc func animateLike() {
         if let feed = self.feed, feed.liked == false {
@@ -119,16 +141,6 @@ class FeedCell: UITableViewCell {
                 self.likeButton.transform = .identity
             }, completion: nil)
         })
-    }
-    
-    @IBAction func toggleLike() {
-        guard let feed = feed else { return }
-        delegate?.feedCell(self, toggleLike: feed)
-    }
-    
-    @IBAction func selectProfile() {
-        guard let user = self.feed?.user else { return }
-        delegate?.feedCell(self, selectUser: user)
     }
 }
 
