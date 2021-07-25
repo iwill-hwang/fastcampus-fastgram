@@ -7,22 +7,6 @@
 
 import UIKit
 
-protocol MediaPlayable: UIView {
-    func isPlayable(from superview: UIScrollView) -> Bool
-    func resume()
-    func pause()
-}
-
-extension MediaPlayable {
-    func togglePlay(from superview: UIScrollView) {
-        if isPlayable(from: superview) {
-            self.resume()
-        } else {
-            self.pause()
-        }
-    }
-}
-
 class FeedViewController: UIViewController {
     private let limit = 50
     
@@ -59,14 +43,14 @@ class FeedViewController: UIViewController {
         super.viewDidDisappear(animated)
         self.pauseMovie()
     }
-    
+}
+
+
+// MARK: - 더보기 관련
+
+extension FeedViewController {
     @objc private func initialize() {
         loadContents(reset: true)
-    }
-    
-    private func addObservers() {
-        NotificationCenter.default.addObserver(self, selector: #selector(pauseMovie), name: UIApplication.willResignActiveNotification, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(resumeMovie), name: UIApplication.didBecomeActiveNotification, object: nil)
     }
     
     private func setupRefreshControl() {
@@ -113,6 +97,38 @@ class FeedViewController: UIViewController {
     }
 }
 
+// MARK: - 영상관련
+
+extension FeedViewController {
+    @objc func pauseMovie() {
+        tableView.visibleCells.compactMap{$0 as? MoviePlayable}.forEach{$0.pause()}
+    }
+    
+    @objc func resumeMovie() {
+        tableView.visibleCells.compactMap{$0 as? MoviePlayable}.forEach{$0.resume()}
+    }
+    
+    private func playMovieIfNeeded() {
+        var alreadyPlaying = false
+        
+        self.tableView.visibleCells.compactMap{$0 as? MoviePlayable}.forEach{
+            let isPlayable = $0.isPlayable(from: self.tableView)
+            if alreadyPlaying == false && isPlayable {
+                $0.resume()
+                alreadyPlaying = true
+            } else {
+                $0.pause()
+            }
+        }
+    }
+    
+    private func addObservers() {
+        NotificationCenter.default.addObserver(self, selector: #selector(pauseMovie), name: UIApplication.willResignActiveNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(resumeMovie), name: UIApplication.didBecomeActiveNotification, object: nil)
+    }
+}
+
+// MARK: - 액션 처리
 
 extension FeedViewController: FeedCellDelegate {
     func feedCell(_ cell: FeedCell, toggleLike feed: Feed) {
@@ -159,28 +175,6 @@ extension FeedViewController: UITableViewDelegate, UITableViewDataSource {
         cell.feed = feed
         
         return cell
-    }
-    
-    @objc func pauseMovie() {
-        tableView.visibleCells.compactMap{$0 as? MediaPlayable}.forEach{$0.pause()}
-    }
-    
-    @objc func resumeMovie() {
-        tableView.visibleCells.compactMap{$0 as? MediaPlayable}.forEach{$0.resume()}
-    }
-    
-    func playMovieIfNeeded() {
-        var alreadyPlaying = false
-        
-        self.tableView.visibleCells.compactMap{$0 as? MediaPlayable}.forEach{
-            let isPlayable = $0.isPlayable(from: self.tableView)
-            if alreadyPlaying == false && isPlayable {
-                $0.resume()
-                alreadyPlaying = true
-            } else {
-                $0.pause()
-            }
-        }
     }
 }
 

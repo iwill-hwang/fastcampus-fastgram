@@ -132,19 +132,19 @@ class FeedCell: UITableViewCell {
     }
 }
 
-extension FeedCell: MediaPlayable {
+extension FeedCell: MoviePlayable {
     func isPlayable(from superview: UIScrollView) -> Bool {
         let intersection = superview.bounds.intersection(self.frame)
         return intersection.height > self.frame.height * 0.7
     }
     
     func pause() {
-        let cells = self.collectionView.visibleCells.compactMap{$0 as? MediaPlayable}
+        let cells = self.collectionView.visibleCells.compactMap{$0 as? MoviePlayable}
         cells.forEach{$0.pause()}
     }
     
     func resume() {
-        let cell = self.collectionView.visibleCells.compactMap{$0 as? MediaPlayable}.first
+        let cell = self.collectionView.visibleCells.compactMap{$0 as? MoviePlayable}.first
         cell?.resume()
     }
 }
@@ -156,13 +156,13 @@ extension FeedCell: UIScrollViewDelegate {
         
         let cells = collectionView.visibleCells
         for cell in cells {
-            if let cell = cell as? MediaPlayable {
+            if let cell = cell as? MoviePlayable {
                 self.bounds.intersects(cell.bounds)
             }
         }
     }
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        let cells = collectionView.visibleCells.compactMap{$0 as? MediaPlayable}
+        let cells = collectionView.visibleCells.compactMap{$0 as? MoviePlayable}
         
         for cell in cells {
             let intersection = collectionView.bounds.intersection(cell.frame)
@@ -204,7 +204,7 @@ extension FeedCell: UICollectionViewDataSource, UICollectionViewDelegateFlowLayo
     }
     
     func collectionView(_ collectionView: UICollectionView, didEndDisplaying cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-        if let cell = cell as? MediaPlayable {
+        if let cell = cell as? MoviePlayable {
             cell.pause()
         }
     }
