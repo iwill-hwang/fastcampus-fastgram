@@ -97,12 +97,12 @@
 			path = Feed;
 			sourceTree = "<group>";
 		};
-		9C397DC126AA92DB0075DCB0 /* UserProfile */ = {
+		9C397DC126AA92DB0075DCB0 /* User */ = {
 			isa = PBXGroup;
 			children = (
 				9C532AD426A7C40500F8A084 /* UserViewController.swift */,
 			);
-			path = UserProfile;
+			path = User;
 			sourceTree = "<group>";
 		};
 		9C397DC226AA92FF0075DCB0 /* Storyboards */ = {
@@ -143,7 +143,7 @@
 				9C397DC026AA92C90075DCB0 /* Feed */,
 				9C532AD626A7C90900F8A084 /* Model */,
 				9C397DC226AA92FF0075DCB0 /* Storyboards */,
-				9C397DC126AA92DB0075DCB0 /* UserProfile */,
+				9C397DC126AA92DB0075DCB0 /* User */,
 			);
 			path = Fastcampus;
 			sourceTree = "<group>";

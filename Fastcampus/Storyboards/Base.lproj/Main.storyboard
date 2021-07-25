@@ -9,7 +9,7 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--FastCampus-->
+        <!--Fastgram-->
         <scene sceneID="tne-QT-ifu">
             <objects>
                 <viewController id="BYZ-38-t0r" customClass="FeedViewController" customModule="Fastcampus" customModuleProvider="target" sceneMemberID="viewController">
@@ -21,7 +21,7 @@
                                 <rect key="frame" x="0.0" y="0.0" width="414" height="808"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <view key="tableFooterView" clipsSubviews="YES" contentMode="scaleToFill" id="Io4-Kn-YXb">
-                                    <rect key="frame" x="0.0" y="649.00000034679067" width="414" height="44"/>
+                                    <rect key="frame" x="0.0" y="593.50000034679067" width="414" height="44"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <subviews>
                                         <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="medium" translatesAutoresizingMaskIntoConstraints="NO" id="Fgg-Fi-ESj">
@@ -35,11 +35,11 @@
                                     </constraints>
                                 </view>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="FeedCell" rowHeight="600" id="T3W-1A-IZ0" customClass="FeedCell" customModule="Fastcampus" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="24.5" width="414" height="600"/>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="FeedCell" id="T3W-1A-IZ0" customClass="FeedCell" customModule="Fastcampus" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="24.5" width="414" height="544.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="T3W-1A-IZ0" id="uCu-Hf-HUf">
-                                            <rect key="frame" x="0.0" y="0.0" width="414" height="600"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="544.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="VGM-Yx-iAt">
@@ -191,8 +191,11 @@
                                                                 <constraint firstAttribute="width" constant="20" id="tvm-qp-wdb"/>
                                                             </constraints>
                                                             <fontDescription key="fontDescription" name=".AppleSystemUIFont" family=".AppleSystemUIFont" pointSize="18"/>
-                                                            <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                             <state key="normal" image="heart" catalog="system"/>
+                                                            <state key="selected" image="heart.fill" catalog="system"/>
+                                                            <connections>
+                                                                <action selector="toggleLike" destination="T3W-1A-IZ0" eventType="touchUpInside" id="iTy-j2-B3O"/>
+                                                            </connections>
                                                         </button>
                                                     </subviews>
                                                     <constraints>
@@ -204,13 +207,16 @@
                                                     </constraints>
                                                 </view>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="좋아요 1211개" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Zyy-lc-IlD">
-                                                    <rect key="frame" x="10" y="499" width="399" height="60.5"/>
+                                                    <rect key="frame" x="10" y="499" width="394" height="15"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="15" id="7ef-0n-lZw"/>
+                                                    </constraints>
                                                     <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="12"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="252" verticalCompressionResistancePriority="751" usesAttributedText="YES" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VxW-JR-hMG">
-                                                    <rect key="frame" x="10" y="564.5" width="399" height="15.5"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VxW-JR-hMG">
+                                                    <rect key="frame" x="10" y="519" width="394" height="15.5"/>
                                                     <attributedString key="attributedText">
                                                         <fragment content="Fastcampus">
                                                             <attributes>
@@ -233,22 +239,22 @@
                                                 </label>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstItem="VxW-JR-hMG" firstAttribute="trailing" secondItem="Zyy-lc-IlD" secondAttribute="trailing" id="0Fe-ss-ElU"/>
-                                                <constraint firstItem="VGM-Yx-iAt" firstAttribute="top" secondItem="uCu-Hf-HUf" secondAttribute="top" id="0jF-8h-xv8"/>
-                                                <constraint firstItem="VxW-JR-hMG" firstAttribute="leading" secondItem="Zyy-lc-IlD" secondAttribute="leading" id="4CP-1e-a37"/>
-                                                <constraint firstItem="0KF-Ld-PZG" firstAttribute="leading" secondItem="uCu-Hf-HUf" secondAttribute="leading" id="ANY-2G-Yjv"/>
-                                                <constraint firstItem="VGM-Yx-iAt" firstAttribute="leading" secondItem="uCu-Hf-HUf" secondAttribute="leading" id="FCh-qd-YL7"/>
-                                                <constraint firstItem="Zyy-lc-IlD" firstAttribute="top" secondItem="0KF-Ld-PZG" secondAttribute="bottom" constant="5" id="FYa-Ya-cMf"/>
-                                                <constraint firstItem="Zyy-lc-IlD" firstAttribute="leading" secondItem="uCu-Hf-HUf" secondAttribute="leading" constant="10" id="HXS-lz-AKs"/>
-                                                <constraint firstAttribute="trailing" secondItem="aeE-xT-FEH" secondAttribute="trailing" id="JZj-bE-YZ0"/>
-                                                <constraint firstAttribute="trailing" secondItem="0KF-Ld-PZG" secondAttribute="trailing" id="KOY-hq-vRU"/>
-                                                <constraint firstItem="VxW-JR-hMG" firstAttribute="top" secondItem="Zyy-lc-IlD" secondAttribute="bottom" constant="5" id="Lao-M9-Hy1"/>
-                                                <constraint firstItem="aeE-xT-FEH" firstAttribute="leading" secondItem="uCu-Hf-HUf" secondAttribute="leading" id="fMw-HY-n7D"/>
-                                                <constraint firstAttribute="bottom" secondItem="VxW-JR-hMG" secondAttribute="bottom" priority="900" constant="20" id="hgD-Lm-8Or"/>
-                                                <constraint firstItem="0KF-Ld-PZG" firstAttribute="top" secondItem="aeE-xT-FEH" secondAttribute="bottom" id="nHK-pG-Shx"/>
-                                                <constraint firstAttribute="trailing" secondItem="VGM-Yx-iAt" secondAttribute="trailing" id="rCJ-FP-v2K"/>
-                                                <constraint firstAttribute="trailing" secondItem="Zyy-lc-IlD" secondAttribute="trailing" constant="5" id="sCX-YX-w0R"/>
-                                                <constraint firstItem="aeE-xT-FEH" firstAttribute="top" secondItem="VGM-Yx-iAt" secondAttribute="bottom" id="uuK-sl-51X"/>
+                                                <constraint firstItem="0KF-Ld-PZG" firstAttribute="top" secondItem="aeE-xT-FEH" secondAttribute="bottom" id="97u-MB-D2D"/>
+                                                <constraint firstAttribute="trailing" secondItem="VGM-Yx-iAt" secondAttribute="trailing" id="DcP-lM-hwd"/>
+                                                <constraint firstAttribute="trailing" secondItem="VxW-JR-hMG" secondAttribute="trailing" constant="10" id="Hk3-rT-SGr"/>
+                                                <constraint firstAttribute="trailing" secondItem="aeE-xT-FEH" secondAttribute="trailing" id="Kus-OY-2vg"/>
+                                                <constraint firstItem="VxW-JR-hMG" firstAttribute="leading" secondItem="uCu-Hf-HUf" secondAttribute="leading" constant="10" id="U36-pD-hwH"/>
+                                                <constraint firstAttribute="bottom" secondItem="VxW-JR-hMG" secondAttribute="bottom" constant="10" id="Y8z-oV-pHt"/>
+                                                <constraint firstItem="VGM-Yx-iAt" firstAttribute="leading" secondItem="uCu-Hf-HUf" secondAttribute="leading" id="Yoh-D9-GYo"/>
+                                                <constraint firstItem="VGM-Yx-iAt" firstAttribute="top" secondItem="uCu-Hf-HUf" secondAttribute="top" id="cdo-0M-G5w"/>
+                                                <constraint firstAttribute="trailing" secondItem="0KF-Ld-PZG" secondAttribute="trailing" id="fqA-ZI-vHV"/>
+                                                <constraint firstItem="Zyy-lc-IlD" firstAttribute="leading" secondItem="uCu-Hf-HUf" secondAttribute="leading" constant="10" id="gFH-IX-mbK"/>
+                                                <constraint firstItem="aeE-xT-FEH" firstAttribute="leading" secondItem="uCu-Hf-HUf" secondAttribute="leading" id="qe4-Ke-uoB"/>
+                                                <constraint firstItem="Zyy-lc-IlD" firstAttribute="top" secondItem="0KF-Ld-PZG" secondAttribute="bottom" constant="5" id="s9G-uc-b08"/>
+                                                <constraint firstItem="VxW-JR-hMG" firstAttribute="top" secondItem="Zyy-lc-IlD" secondAttribute="bottom" constant="5" id="suZ-7W-e71"/>
+                                                <constraint firstItem="aeE-xT-FEH" firstAttribute="top" secondItem="VGM-Yx-iAt" secondAttribute="bottom" id="x94-fL-Nqs"/>
+                                                <constraint firstAttribute="trailing" secondItem="Zyy-lc-IlD" secondAttribute="trailing" constant="10" id="xvc-Pi-Fuj"/>
+                                                <constraint firstItem="0KF-Ld-PZG" firstAttribute="leading" secondItem="uCu-Hf-HUf" secondAttribute="leading" id="ypl-i2-GqT"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <gestureRecognizers/>
@@ -280,7 +286,7 @@
                             <constraint firstAttribute="bottom" secondItem="j8t-1M-qAY" secondAttribute="bottom" id="L50-gD-1ie"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="FastCampus" id="mIP-rX-46U"/>
+                    <navigationItem key="navigationItem" title="Fastgram" id="mIP-rX-46U"/>
                     <connections>
                         <outlet property="loadingIndicator" destination="Fgg-Fi-ESj" id="Wdo-sS-QBm"/>
                         <outlet property="tableView" destination="j8t-1M-qAY" id="KZp-bE-7gf"/>

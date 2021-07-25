@@ -9,11 +9,17 @@ import Foundation
 import UIKit
 import AVKit
 
+protocol FeedCellDelegate: AnyObject {
+    func feedCell(_ cell: FeedCell, toggleLike feed: Feed)
+    func feedCell(_ cell: FeedCell, selectUser user: User)
+    func feedCellShoudExpand(_ cell: FeedCell)
+}
+
 class FeedCell: UITableViewCell {
     var feed: Feed? {
         didSet {
-            guard let feed = feed else { return }
-                
+            guard let feed = feed, feed != oldValue  else { return }
+            
             if let url = URL(string: feed.user.profileImageURL) {
                 userPhotoView.setImage(url: url)
             }
@@ -21,17 +27,34 @@ class FeedCell: UITableViewCell {
             collectionView.reloadData()
             collectionView.contentOffset = .zero
             
-            contentLabel.text = "2021-07-23 18:40:59.866171+0900 Fastcampus[4612:180872] [plugin] AddInstanceForFactory: No factory registered for id <CFUUID 0x60000099a920> F8BB1C28-BAE8-11D6-9C31-00039315CD46"
+            contentLabel.text = feed.content
             userNameLabel.text = feed.user.name
             
             updateLike(feed)
             
             pageControl.numberOfPages = feed.medias.count
             pageControl.currentPage = 0
+            
+            
+            let content = "\(feed.user.name) \(feed.content)"
+            let more = "... 더보기"
+            let text = NSMutableAttributedString(string: content)
+            let hasMore = content.hasSuffix(more)
+            
+            text.addAttribute(.font, value: UIFont.systemFont(ofSize: 13, weight: .regular), range: NSRange(location: 0, length: content.count))
+            text.addAttribute(.font, value: UIFont.systemFont(ofSize: 13, weight: .bold), range: NSRange(location: 0, length: feed.user.name.count))
+            
+            if hasMore {
+                text.addAttribute(.foregroundColor, value: UIColor.lightGray, range: NSRange.init(location: content.count - more.count, length: more.count))
+            }
+            
+            
+            contentLabel.attributedText = text
+            
         }
     }
     
-    var viewModel: FeedViewModel?
+    weak var delegate: FeedCellDelegate?
     
     @IBOutlet weak private var userPhotoView: UIImageView!
     @IBOutlet weak private var userNameLabel: UILabel!
@@ -48,9 +71,13 @@ class FeedCell: UITableViewCell {
         self.userPhotoView.makeCircle()
         self.initialize()
         
-        let doubleTap = UITapGestureRecognizer(target: self, action: #selector(animateLike))
-        doubleTap.numberOfTapsRequired = 2
-        container.addGestureRecognizer(doubleTap)
+        let feedDoubleTap = UITapGestureRecognizer(target: self, action: #selector(animateLike))
+        feedDoubleTap.numberOfTapsRequired = 2
+        container.addGestureRecognizer(feedDoubleTap)
+        
+        let textTap = UITapGestureRecognizer(target: self, action: #selector(selectText))
+        contentLabel.addGestureRecognizer(textTap)
+        contentLabel.isUserInteractionEnabled = true
     }
     
     override func prepareForReuse() {
@@ -61,32 +88,47 @@ class FeedCell: UITableViewCell {
     private func initialize() {
         self.likeView.transform = CGAffineTransform(scaleX: 0.5, y: 0.5)
         self.likeView.alpha = 0
-        self.userPhotoView.image = nil
     }
     
     func updateLike(_ feed: Feed) {
         likeCountLabel.text = "좋아요 \(feed.likeCount)개"
+        likeButton.isSelected = feed.liked
+        likeButton.tintColor = feed.liked ? .systemPink : .black
+    }
+    
+    @objc func selectText() {
+        guard let content = feed?.content, content.count >= 40 else {
+            return
+        }
+        delegate?.feedCellShoudExpand(self)
     }
     
     @objc func animateLike() {
         if let feed = self.feed, feed.liked == false {
-            self.viewModel?.toggleLike?(feed)
+            delegate?.feedCell(self, toggleLike: feed)
         }
         
         UIView.animate(withDuration: 0.2, delay: 0, usingSpringWithDamping: 0.8, initialSpringVelocity: 0.6, options: .curveEaseInOut, animations: {
             self.likeView.alpha = 1
             self.likeView.transform = CGAffineTransform(scaleX: 1, y: 1)
+            self.likeButton.transform = CGAffineTransform(scaleX: 1.2, y: 1.2)
         }, completion: { _ in
             UIView.animate(withDuration: 0.2, delay: 0.5, usingSpringWithDamping: 0.8, initialSpringVelocity: 0.6, options: .curveEaseInOut, animations: {
                 self.likeView.alpha = 0
                 self.likeView.transform = CGAffineTransform(scaleX: 0.5, y: 0.5)
+                self.likeButton.transform = .identity
             }, completion: nil)
         })
     }
     
+    @IBAction func toggleLike() {
+        guard let feed = feed else { return }
+        delegate?.feedCell(self, toggleLike: feed)
+    }
+    
     @IBAction func selectProfile() {
         guard let user = self.feed?.user else { return }
-        self.viewModel?.goUserProfile?(user)
+        delegate?.feedCell(self, selectUser: user)
     }
 }
 

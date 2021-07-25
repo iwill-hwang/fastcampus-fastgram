@@ -49,7 +49,7 @@ class UserFeedCell: UICollectionViewCell {
 class UserViewController: UIViewController {
     var user: User?
     var medias: [FeedMedia] = {
-        return (0...20).map{_ in FeedMedia.createRandom()}
+        FeedMedia.allPhotos().shuffled()
     }()
 }
 

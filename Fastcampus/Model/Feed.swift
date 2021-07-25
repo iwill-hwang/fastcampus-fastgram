@@ -9,10 +9,11 @@ import Foundation
 
 struct Feed {
     let id: TimeInterval
-    let content: String
+    
     let user: User
     let medias: [FeedMedia]
     
+    var content: String
     var liked: Bool
     var likeCount: Int
 }
@@ -23,12 +24,18 @@ extension Feed {
         let id = Date().timeIntervalSince1970
         let likeCount = (1...100).randomElement()!
         let liked = (0...1).randomElement() == 0 ? true : false
-        let content = ""
+        let content =
+            ["You've gotta dance like there's nobody watching, Love like you'll never be hurt, Sing like there's nobody listening, And live like it's heaven on earth",
+             "Be yourself; everyone else is already taken.",
+             "Two things are infinite: the universe and human stupidity; and I'm not sure about the universe.",
+             "So many books, so little time",
+             "A room without books is like a body without a soul."
+            ].randomElement()!
         
         let count = (1...10).randomElement()!
         let medias = (1...count).map{_ in FeedMedia.createRandom()}
         
-        return Feed(id: id, content: content, user: user, medias: medias, liked: liked, likeCount: likeCount)
+        return Feed(id: id, user: user, medias: medias, content: content, liked: liked, likeCount: likeCount)
     }
 }
 
